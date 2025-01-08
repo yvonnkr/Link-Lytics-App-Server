@@ -9,8 +9,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     database: mysql
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+  expiration: 172800000
+frontend:
+  url: ${FRONTEND_URL:http://localhost:5173}
