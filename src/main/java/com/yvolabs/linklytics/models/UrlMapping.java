@@ -12,8 +12,8 @@ import java.util.List;
  * @since 07/01/2025
  */
 
-@Data
 @Entity
+@Data
 public class UrlMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,4 @@ public class UrlMapping {
 
     @OneToMany(mappedBy = "urlMapping")
     private List<ClickEvent> clickEvents;
-
 }
