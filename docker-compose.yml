@@ -1,0 +1,26 @@
+name: "linklytics"
+
+services:
+  mysql:
+    container_name: mysql-linklytics
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: linklyticsdb
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - linklytics-net
+
+networks:
+  linklytics-net:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local
