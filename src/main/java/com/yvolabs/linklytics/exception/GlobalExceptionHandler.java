@@ -3,6 +3,8 @@ package com.yvolabs.linklytics.exception;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
@@ -71,9 +73,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(ErrorResponse.builder()
                         .status(HttpStatus.UNAUTHORIZED)
-                        .message( ex.getMessage() + ", username or password is incorrect")
+                        .message(ex.getMessage() + ", username or password is incorrect")
                         .build());
+    }
 
+    @ExceptionHandler({AuthorizationDeniedException.class, BadCredentialsException.class})
+    public ResponseEntity<ErrorResponse> handleAuthorizationDeniedException(Exception ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorResponse.builder()
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .message(ex.getMessage())
+                        .build());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -87,8 +98,10 @@ public class GlobalExceptionHandler {
 
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllUnhandled(Exception ex) {
+        ex.printStackTrace();
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
