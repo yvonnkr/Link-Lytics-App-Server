@@ -11,11 +11,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * @author Yvonne N
@@ -50,9 +52,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(NOT_FOUND)
                 .body(ErrorResponse.builder()
-                        .status(HttpStatus.NOT_FOUND)
+                        .status(NOT_FOUND)
                         .message(ex.getMessage())
                         .build());
     }
@@ -60,9 +62,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({UsernameNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(NOT_FOUND)
                 .body(ErrorResponse.builder()
-                        .status(HttpStatus.NOT_FOUND)
+                        .status(NOT_FOUND)
                         .message(ex.getMessage())
                         .build());
     }
@@ -94,6 +96,17 @@ public class GlobalExceptionHandler {
                 .body(ErrorResponse.builder()
                         .status(BAD_REQUEST)
                         .message(ex.getMostSpecificCause().getMessage())
+                        .build());
+
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
+        return ResponseEntity
+                .status(NOT_FOUND)
+                .body(ErrorResponse.builder()
+                        .status(NOT_FOUND)
+                        .message(ex.getMessage())
                         .build());
 
     }
