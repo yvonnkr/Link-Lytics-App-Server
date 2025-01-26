@@ -8,10 +8,7 @@ import com.yvolabs.linklytics.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Yvonne N
@@ -42,4 +39,5 @@ public class AuthController {
         JwtAuthenticationResponse response = userService.authenticateUser(loginRequest);
         return ResponseEntity.ok(response);
     }
+
 }
